@@ -8,6 +8,15 @@ from preprocess import PreprocessText
 class load_data():
 
     def __init__(self,file,target_cols=[],predictor_cols=[],header=0,sheet_name=0,txt_sep=","):
+        '''
+        :param file: file path
+        :param target_cols: target column names in list
+        :param predictor_cols: predictor_cols in list. if it is empty this class will check
+         for text columns and use it as predictors
+        :param header: int  0 if  file has header in first row
+        :param sheet_name: sheet_name if file is xl format
+        :param txt_sep: separator if the file type is txt
+        '''
         self.filename = file
         self.target_cols = target_cols
         self.predictor_cols = predictor_cols
@@ -31,7 +40,7 @@ class load_data():
         else:
             raise ValueError("we cant handle this file type")
 
-        if  not self.predictor_cols:
+        if not self.predictor_cols:
             for col in self.df.columns:
                 if re.findall("desc[a-z]*", col, flags=re.I) != []:
                     self.predictor_cols.append(col)
